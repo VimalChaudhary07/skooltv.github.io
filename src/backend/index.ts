@@ -13,6 +13,14 @@ import "./providers/gomovies";
 import "./providers/kissasian";
 import "./providers/streamflix";
 import "./providers/remotestream";
+import "./providers/hdstream";
+
+// New providers - uncomment to enable
+import "./providers/vidsrc";
+import "./providers/multisource";
+import "./providers/twoembed";
+// import "./providers/consumet-flixhq"; // Requires self-hosted Consumet instance
+// import "./providers/publicmovies"; // Test and enable after verification
 
 // embeds
 import "./embeds/streamm4u";
