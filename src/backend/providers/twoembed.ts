@@ -24,7 +24,7 @@ registerProvider({
       }
 
       let embedUrl = "";
-      
+
       if (media.meta.type === MWMediaType.MOVIE) {
         // For movies, use TMDB ID
         embedUrl = `https://www.2embed.cc/embed/tmdb/movie?id=${tmdbId}`;
@@ -47,8 +47,9 @@ registerProvider({
       // Fetch the embed page
       const embedResponse = await proxiedFetch<string>(embedUrl, {
         headers: {
-          "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
-          "Referer": "https://www.2embed.cc/",
+          "User-Agent":
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
+          Referer: "https://www.2embed.cc/",
         },
       });
 
@@ -60,7 +61,9 @@ registerProvider({
 
       // Extract stream URL from embed page
       // This is a simplified example - you may need to adjust based on 2embed's actual structure
-      const streamUrlMatch = embedResponse.match(/(?:file|source)["']?\s*:\s*["']([^"']+\.m3u8[^"']*)/i);
+      const streamUrlMatch = embedResponse.match(
+        /(?:file|source)["']?\s*:\s*["']([^"']+\.m3u8[^"']*)/i
+      );
       let streamUrl = streamUrlMatch ? streamUrlMatch[1] : null;
 
       // Alternative patterns to look for
@@ -73,7 +76,10 @@ registerProvider({
 
         for (const pattern of altPatterns) {
           const match = embedResponse.match(pattern);
-          if (match && (match[1].includes('.m3u8') || match[1].includes('.mp4'))) {
+          if (
+            match &&
+            (match[1].includes(".m3u8") || match[1].includes(".mp4"))
+          ) {
             streamUrl = match[1];
             break;
           }
@@ -85,14 +91,16 @@ registerProvider({
       }
 
       // Clean up the URL if needed
-      if (streamUrl.startsWith('//')) {
-        streamUrl = 'https:' + streamUrl;
-      } else if (streamUrl.startsWith('/')) {
-        streamUrl = 'https://www.2embed.cc' + streamUrl;
+      if (streamUrl.startsWith("//")) {
+        streamUrl = `https:${streamUrl}`;
+      } else if (streamUrl.startsWith("/")) {
+        streamUrl = `https://www.2embed.cc${streamUrl}`;
       }
 
       // Determine stream type and quality
-      const streamType = streamUrl.includes('.m3u8') ? MWStreamType.HLS : MWStreamType.MP4;
+      const streamType = streamUrl.includes(".m3u8")
+        ? MWStreamType.HLS
+        : MWStreamType.MP4;
       const quality = MWStreamQuality.Q720P; // Default quality
 
       return {
@@ -104,9 +112,12 @@ registerProvider({
           captions: [], // 2embed typically doesn't provide subtitles directly
         },
       };
-
     } catch (error) {
-      throw new Error(`2Embed scraping failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      throw new Error(
+        `2Embed scraping failed: ${
+          error instanceof Error ? error.message : "Unknown error"
+        }`
+      );
     }
   },
 });

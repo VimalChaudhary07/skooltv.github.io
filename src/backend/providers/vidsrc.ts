@@ -1,6 +1,10 @@
 import { proxiedFetch } from "../helpers/fetch";
 import { registerProvider } from "../helpers/register";
-import { MWStreamQuality, MWStreamType, MWCaptionType } from "../helpers/streams";
+import {
+  MWCaptionType,
+  MWStreamQuality,
+  MWStreamType,
+} from "../helpers/streams";
 import { MWMediaType } from "../metadata/types/mw";
 
 const vidsrcBase = "https://vidsrc.xyz"; // Updated base URL
@@ -26,7 +30,7 @@ registerProvider({
       }
 
       let apiUrl = "";
-      
+
       if (media.meta.type === MWMediaType.MOVIE) {
         // For movies, use IMDB ID directly
         apiUrl = `/api/movie/${imdbId}`;
@@ -50,8 +54,9 @@ registerProvider({
       const response = await proxiedFetch<any>(apiUrl, {
         baseURL: vidsrcBase,
         headers: {
-          "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
-          "Referer": "https://vidsrc.xyz/",
+          "User-Agent":
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
+          Referer: "https://vidsrc.xyz/",
         },
       });
 
@@ -88,8 +93,8 @@ registerProvider({
       }
 
       // Determine stream type
-      const streamType = bestSource.url.includes(".m3u8") 
-        ? MWStreamType.HLS 
+      const streamType = bestSource.url.includes(".m3u8")
+        ? MWStreamType.HLS
         : MWStreamType.MP4;
 
       return {
@@ -101,9 +106,12 @@ registerProvider({
           captions,
         },
       };
-
     } catch (error) {
-      throw new Error(`VidSrc scraping failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      throw new Error(
+        `VidSrc scraping failed: ${
+          error instanceof Error ? error.message : "Unknown error"
+        }`
+      );
     }
   },
 });

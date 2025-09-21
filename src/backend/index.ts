@@ -13,7 +13,6 @@ import "./providers/gomovies";
 import "./providers/kissasian";
 import "./providers/streamflix";
 import "./providers/remotestream";
-import "./providers/hdstream";
 
 // New providers - uncomment to enable
 import "./providers/vidsrc";
